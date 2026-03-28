@@ -246,6 +246,90 @@
             cursor: pointer;
         }
         .diff-btn.active { background: var(--primary); color: white; border-color: var(--primary); font-weight: bold; }
+
+        /* מודאל הוראות */
+        #instructions-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .instructions-content {
+            background: white;
+            padding: 28px;
+            border-radius: 24px;
+            text-align: right;
+            width: 88%;
+            max-width: 380px;
+            max-height: 85vh;
+            overflow-y: auto;
+            direction: rtl;
+        }
+        .instructions-content h2 {
+            text-align: center;
+            color: var(--primary-dark);
+            margin-top: 0;
+            font-size: 1.4em;
+        }
+        .instructions-section {
+            background: #f0f7ff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0;
+            border-right: 4px solid var(--primary);
+        }
+        .instructions-section h3 {
+            margin: 0 0 6px 0;
+            color: var(--primary-dark);
+            font-size: 1em;
+        }
+        .instructions-section p {
+            margin: 0;
+            font-size: 0.88em;
+            color: #444;
+            line-height: 1.6;
+        }
+        .training-tip {
+            background: #fff8e1;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin: 12px 0;
+            border-right: 4px solid var(--accent);
+        }
+        .training-tip h3 {
+            margin: 0 0 6px 0;
+            color: #795548;
+            font-size: 1em;
+        }
+        .training-tip p {
+            margin: 0;
+            font-size: 0.88em;
+            color: #5d4037;
+            line-height: 1.6;
+        }
+        .info-btn {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            background: #e3f2fd;
+            border: none;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1em;
+            cursor: pointer;
+            color: var(--primary-dark);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .info-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -254,6 +338,7 @@
 
 <div class="game-container">
     <div class="game-card">
+        <button class="info-btn" onclick="document.getElementById('instructions-modal').style.display='flex'" title="הוראות">?</button>
         <div class="header">
             <h1 class="brand">CoolDog Pro 🐕</h1>
             <div class="sub-brand">ניב פינטו - אילוף וכיף</div>
@@ -322,6 +407,58 @@
         <p id="modal-text"></p>
         <input type="text" id="player-name" placeholder="הכנס את שמך..." maxlength="12" style="width: 100%; box-sizing: border-box; padding: 12px; margin: 15px 0; border-radius: 12px; border: 2px solid #eee; text-align: center; font-size: 1.1em; outline: none;">
         <button class="action-btn" onclick="saveHighScore()">שמור שיא</button>
+    </div>
+</div>
+
+<!-- מודאל הוראות -->
+<div id="instructions-modal">
+    <div class="instructions-content">
+        <h2>🎯 מדריך המשחק</h2>
+
+        <div class="instructions-section">
+            <h3>🐕 איך משחקים?</h3>
+            <p>
+                הכלב רץ הלוך ושוב על המסלול. לחץ על הכפתור הגדול (או רווח במקלדת) כשהכלב נמצא בדיוק מעל האזור הכחול המודגש. ככל שתהיה מדויק יותר – כך תצבור יותר נקודות!
+            </p>
+        </div>
+
+        <div class="instructions-section">
+            <h3>🎨 אזורי הניקוד</h3>
+            <p>
+                🔵 <b>כחול (מדהים!)</b> – פגעת בול במרכז. הניקוד הגבוה ביותר!<br>
+                🟢 <b>ירוק (טוב)</b> – קרוב אבל לא מושלם.<br>
+                🟠 <b>כתום (קרוב)</b> – אזור השפה. אין נקודות.<br>
+                ❌ <b>פספסת</b> – הכלב היה רחוק מדי. הרצף מתאפס.
+            </p>
+        </div>
+
+        <div class="instructions-section">
+            <h3>🔥 רצף וקומבו</h3>
+            <p>
+                כל פגיעה טובה ברצף מגדילה את המכפיל שלך! שמור על הרצף כדי לצבור נקודות בצורה אקספוננציאלית. הפס התחתון מראה כמה אתה קרוב לקומבו הבא.
+            </p>
+        </div>
+
+        <div class="training-tip">
+            <h3>🧠 למה דיוק חשוב באילוף?</h3>
+            <p>
+                באילוף כלבים, <b>תזמון הוא הכל</b>. הכלב מקשר את הגמול (חטיף, קליקר, מחמאה) לפעולה שעשה <b>ברגע הנתון</b> – לא שנייה לפני ולא שנייה אחרי.<br><br>
+                מחקרים מראים שחלון הלמידה של כלב עומד על <b>פחות משנייה</b>. גמול שניתן איחור של 2–3 שניות כבר "מלמד" את הכלב התנהגות אחרת לגמרי ממה שרצינו לחזק!<br><br>
+                לכן מאלפים מקצועיים מתרגלים ומשכללים כל הזמן את הדיוק שלהם – בדיוק כמו במשחק הזה. 🎯
+            </p>
+        </div>
+
+        <div class="instructions-section">
+            <h3>⚙️ רמות קושי</h3>
+            <p>
+                <b>קל</b> – כלב איטי, אזור מדהים רחב.<br>
+                <b>בינוני</b> – קצב מהיר יותר, פחות סלחני.<br>
+                <b>קשה</b> – דורש תגובה מהירה ומדויקת.<br>
+                <b>אקסטרים</b> – רק למאלפים אמיתיים! 🐾
+            </p>
+        </div>
+
+        <button class="action-btn" style="margin-top:10px" onclick="document.getElementById('instructions-modal').style.display='none'">בואו נשחק! 🚀</button>
     </div>
 </div>
 
@@ -555,7 +692,7 @@
 
     function saveHighScore() {
         let name = document.getElementById('player-name').value.trim() || 'שחקן אנונימי';
-        game.highScores.push({ name, score: game.score });
+        game.highScores.push({ name, score: game.score, diff: game.diff });
         game.highScores.sort((a, b) => b.score - a.score);
         game.highScores = game.highScores.slice(0, 5); // שומרים רק 5 מובילים
         localStorage.setItem('cooldog_scores', JSON.stringify(game.highScores));
@@ -575,10 +712,15 @@
         
         list.innerHTML = game.highScores.map((entry, idx) => {
             let medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : (idx + 1);
+            let diffLabels = { easy: 'קל', medium: 'בינוני', hard: 'קשה', extreme: 'אקסטרים' };
+            let diffLabel = diffLabels[entry.diff] || '';
+            let diffColors = { easy: '#66bb6a', medium: '#ffa726', hard: '#ef5350', extreme: '#8e24aa' };
+            let diffColor = diffColors[entry.diff] || '#aaa';
             return `
                 <div class="leaderboard-item">
                     <span class="rank">${medal}</span>
                     <span class="player-name">${entry.name}</span>
+                    <span style="font-size:0.72em; color:${diffColor}; font-weight:bold; margin-left:8px; white-space:nowrap;">${diffLabel}</span>
                     <span class="player-score">${entry.score.toLocaleString()}</span>
                 </div>
             `;
